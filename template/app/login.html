@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home {% endblock title %}
+{% block main-content %}
+
+<div class="container bg-light">
+    <div class="row my-3 ">
+        <div class="col-sm-6 offset-sm-3 "><br>
+        <h1 class="text-danger text-center">tailwebs</h1>
+            <form method="POST">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" name="username" class="form-control" required><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password"  class="form-control" required><br>
+                <a href="#">Forget Password</a><br><br>
+                <center><button type="submit" class="btn btn-dark text-white form-control">Login</button></center><br><br>
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+                <br>
+    </form>
+
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

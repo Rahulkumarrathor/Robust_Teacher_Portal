@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home {% endblock title %}
+{% block main-content %}
+<div class="container-fluid">
+      <div class="container">
+<table class="table table-hover ">
+  <thead>
+    <tr>
+
+      <th scope="col">Name</th>
+      <th scope="col">Subject</th>
+      <th scope="col">Marks</th>
+
+      <th scope="col">Actions</th>
+
+
+    </tr   >
+  </thead>
+  <tbody>
+  {% for i in student %}
+    <tr>
+
+      <td>{{i.name}}</td>
+      <td>{{i.subject}}</td>
+          <td>{{i.marks}}</td>
+      <td>
+
+
+<button type="button" class="btn btn-danger btn-lg"  data-bs-toggle="modal"
+        data-bs-target="#deleteEmployeeModal-{{forloop.counter}}">
+   <i class="bi bi-clipboard2-x-fill"></i>
+</button>
+ <button type="button" class="btn btn-primary btn-lg"
+            data-bs-toggle="modal" data-bs-target="#editEmployeeModal-{{forloop.counter}}">
+     <i class="bi bi-pencil-fill"></i></button>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+      </div><br>
+    <!------model start------->
+
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Add Student
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+
+          <form  action="/add_student/"  method="POST">
+      {% csrf_token %}
+      <div class="modal-body">
+        <!--form--start-->
+
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Name</label>
+    <input type="text" class="form-control" id="exampleInputEmail11" name="name" aria-describedby="emailHelp">
+  </div>
+
+      <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Subject</label>
+    <input type="text" class="form-control" id="exampleInputEmail1"  name="subject" aria-describedby="emailHelp">
+  </div>
+
+
+
+
+          <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Marks</label>
+    <input type="number" class="form-control" id="exampleInputEmail11" name="marks" aria-describedby="emailHelp">
+  </div>
+
+
+        <!--form --end-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle</button>
+        <input type="submit" class="btn btn-primary px-4"  value="Add">
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!-------model end---------->
+
+<!---edit--model----start-->
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+{% for i in student %}
+ <div class="modal fade" id="editEmployeeModal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form action="/update/{{i.id}}"  method="post">
+            {% csrf_token %}
+      <div class="modal-body">
+         <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Name</label>
+    <input type="text" name="name" value="{{i.name}}" class="form-control" id="exampleInputEmail11"  aria-describedby="emailHelp">
+  </div>
+
+      <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Subject</label>
+    <input type="text" value="{{i.subject}}" class="form-control"
+           id="exampleInputEmail1"  name="subject" aria-describedby="emailHelp">
+  </div>
+
+
+
+          <!---textarea-->
+
+          <!--text--area-->
+          <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Marks</label>
+    <input type="number"  value="{{i.marks}}" class="form-control"
+           id="exampleInputEmail11" name="marks" aria-describedby="emailHelp">
+  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">update</button>
+      </div>
+        </form>
+     </div>
+   </div>
+ </div>
+ {%  endfor %}
+<!--edit--model---end--->
+<!---delete--start-->
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+{% for i in student %}
+<div class="modal fade" id="deleteEmployeeModal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Employee </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <p>Are you sure want to delete these Records?</p>
+          {{ i.name}}   Information Are Delete?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href="/delete/{{i.id}}" type="submit" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endfor %}
+
+<!--delete--end-->
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock main-content %}
